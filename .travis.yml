@@ -1,0 +1,19 @@
+sudo: required
+dist: xenial
+language: bash
+
+jobs:
+  include:
+    - stage: build image
+      script:
+        - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+            TAG=v`date +"%Y%m%d"`;
+            docker build . -t colachen/openvpn:latest -t colachen/openvpn:$TAG;
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
+            docker push colachen/openvpn:$TAG;
+            docker push colachen/openvpn:latest;
+          fi
+
+    - stage: test image
+      script:
+        - docker run --rm colachen/openvpn openvpn --version || echo 0
