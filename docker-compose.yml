@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  openvpn:
+    # build:
+    #   context: .
+    container_name: openvpn
+    image: colachen/openvpn
+    cap_add:
+     - NET_ADMIN
+    restart: always
+    ports: 
+      - 1194:1194/udp
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes: 
+      - "${PWD}/openvpn:/etc/openvpn"
