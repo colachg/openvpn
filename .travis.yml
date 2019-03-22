@@ -8,11 +8,7 @@ jobs:
       script:
         - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
             TAG=v`date +"%Y%m%d"`;
-            docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-                 --build-arg VCS_REF=`git rev-parse --short HEAD` \
-                 --build-arg VERSION=`cat VERSION` \
-                 --tag colachen/openvpn:latest \
-                 --tag colachen/openvpn:$TAG .;
+            docker build --tag colachen/openvpn:latest --tag colachen/openvpn:$TAG --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` --build-arg VERSION=$TAG .;
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
             docker push colachen/openvpn:$TAG;
             docker push colachen/openvpn:latest;
