@@ -1,8 +1,9 @@
 FROM ubuntu
 
-RUN apt install openvpn openvpn-auth-ldap iptables net-tools\
+RUN apt update\
+    && export DEBIAN_FRONTEND=noninteractive;apt install -y openvpn openvpn-auth-ldap iptables net-tools\
     && apt clean \
-    &&rm -rf /tmp/*  /cache/*
+    && rm -rf /tmp/*  /cache/*
 
 EXPOSE 1194/udp
 
