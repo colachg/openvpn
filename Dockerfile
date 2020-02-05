@@ -1,7 +1,8 @@
-FROM alpine
+FROM ubuntu
 
-RUN apk add --update easy-rsa openvpn openvpn-auth-ldap iptables net-tools&&\
-    rm -rf /tmp/*  /cache/*
+RUN apt install openvpn openvpn-auth-ldap iptables net-tools\
+    && apt clean \
+    &&rm -rf /tmp/*  /cache/*
 
 EXPOSE 1194/udp
 
